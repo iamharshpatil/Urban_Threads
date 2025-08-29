@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
-
+import bannerOne from "../../assets/banner-1.webp";
+import bannerTwo from "../../assets/banner-2.webp";
+import bannerThree from "../../assets/banner-3.webp";
 import {
   Airplay,
   BabyIcon,
@@ -50,7 +52,7 @@ function ShoppingHome() {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
-  const  [featureImageList, setFeatureImageList] = useState(['banner-1.webp', 'banner-2.webp', 'banner-3.webp']);
+  const  [featureImageList, setFeatureImageList] = useState([bannerOne, bannerTwo, bannerThree]);
 
   console.log(featureImageList);
   
@@ -122,7 +124,45 @@ function ShoppingHome() {
 
   return (
     <div className="flex flex-col min-h-screen">
-   
+      <div className="relative w-full h-[600px]  overflow-hidden">
+        {featureImageList && featureImageList.length > 0
+          ? featureImageList.map((slide, index) => (
+              <img
+                src='banner-1.webp'
+                key={index}
+                className={`${
+                  index === currentSlide ? "opacity-100" : "opacity-0"
+                } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
+              />
+            ))
+          : null}
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() =>
+            setCurrentSlide(
+              (prevSlide) =>
+                (prevSlide - 1 + featureImageList.length) %
+                featureImageList.length
+            )
+          }
+          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80"
+        >
+          <ChevronLeftIcon className="w-4 h-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() =>
+            setCurrentSlide(
+              (prevSlide) => (prevSlide + 1) % featureImageList.length
+            )
+          }
+          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
+        >
+          <ChevronRightIcon className="w-4 h-4" />
+        </Button>
+      </div>
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">
