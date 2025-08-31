@@ -23,8 +23,7 @@ import UserCartWrapper from "./cart-wrapper";
 import { useEffect, useState } from "react";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
-import Logo from '/public/Logo.png'
-
+import Logo from '../../assets/Logo.png'
 
 function MenuItems() {
   const navigate = useNavigate();
@@ -56,9 +55,10 @@ function MenuItems() {
       {shoppingViewHeaderMenuItems.map((menuItem) => (
         <Label
           onClick={() => handleNavigate(menuItem)}
-          className="text-sm font-medium cursor-pointer"
+          className="text-sm font-medium cursor-pointer text-center lg:text-left hover:text-primary transition-colors"
           key={menuItem.id}
         >
+           {menuItem.icon && <i className={`${menuItem.icon} mr-2`}></i>}
           {menuItem.label}
         </Label>
       ))}
@@ -88,12 +88,12 @@ function HeaderRightContent() {
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
         <Button
           onClick={() => setOpenCartSheet(true)}
-          variant="outline"
+          variant="outline-none"
           size="icon"
-          className="relative"
+          className="relative mx-auto lg:mx-0"
         >
           <ShoppingCart className="w-6 h-6" />
-          <span className="absolute top-[-5px] right-[2px] font-bold text-sm">
+          <span className="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
             {cartItems?.items?.length || 0}
           </span>
           <span className="sr-only">User cart</span>
@@ -110,21 +110,21 @@ function HeaderRightContent() {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black">
-            <AvatarFallback className="bg-black text-white font-extrabold">
+          <Avatar className="bg-primary hover:bg-primary/90 mx-auto lg:mx-0">
+            <AvatarFallback className="bg-primary text-primary-foreground font-extrabold">
               {user?.userName[0].toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="right" className="w-56">
-          <DropdownMenuLabel>Logged in as {user?.userName}</DropdownMenuLabel>
+          <DropdownMenuLabel className="font-poppins">Logged in as {user?.userName}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate("/shop/account")}>
+          <DropdownMenuItem onClick={() => navigate("/shop/account")} className="font-inter">
             <UserCog className="mr-2 h-4 w-4" />
             Account
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout}>
+          <DropdownMenuItem onClick={handleLogout} className="font-inter">
             <LogOut className="mr-2 h-4 w-4" />
             Logout
           </DropdownMenuItem>
@@ -138,11 +138,12 @@ function ShoppingHeader() {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background">
+    <header className="sticky top-0 z-40 w-full border-b border-secondary bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         <Link to="/shop/home" className="flex items-center gap-2">
-                  <img className="w-20" src={Logo} alt="Urban Threads Logo" />
+          <img className="w-16 h-auto" src={Logo} alt="Urban Threads Logo" />
         </Link>
+        
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">
@@ -151,11 +152,18 @@ function ShoppingHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-xs">
-            <MenuItems />
-            <HeaderRightContent />
+            <div className="flex flex-col h-full">
+              <div className="flex-1">
+                <MenuItems />
+              </div>
+              <div className="border-t border-secondary pt-4">
+                <HeaderRightContent />
+              </div>
+            </div>
           </SheetContent>
         </Sheet>
-        <div className="hidden lg:block">
+        
+        <div className="hidden lg:flex lg:flex-1 lg:justify-center">
           <MenuItems />
         </div>
 

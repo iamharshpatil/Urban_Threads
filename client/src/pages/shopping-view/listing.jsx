@@ -146,13 +146,13 @@ function ShoppingListing() {
   console.log(productList, "productListproductListproductList");
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
+    <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 p-6">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
-      <div className="bg-background w-full rounded-lg shadow-sm">
-        <div className="p-4 border-b flex items-center justify-between">
-          <h2 className="text-lg font-extrabold">All Products</h2>
-          <div className="flex items-center gap-3">
-            <span className="text-muted-foreground">
+      <div className="bg-background w-full rounded-lg shadow-sm border border-secondary">
+        <div className="p-6 border-b border-secondary flex items-center justify-between">
+          <h2 className="text-subsection font-poppins font-semibold text-foreground">All Products</h2>
+          <div className="flex items-center gap-4">
+            <span className="text-body font-inter text-muted-foreground">
               {productList?.length} Products
             </span>
             <DropdownMenu>
@@ -160,7 +160,7 @@ function ShoppingListing() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-2 border-secondary hover:bg-secondary hover:text-secondary-foreground font-poppins font-medium"
                 >
                   <ArrowUpDownIcon className="h-4 w-4" />
                   <span>Sort by</span>
@@ -172,6 +172,7 @@ function ShoppingListing() {
                     <DropdownMenuRadioItem
                       value={sortItem.id}
                       key={sortItem.id}
+                      className="font-inter"
                     >
                       {sortItem.label}
                     </DropdownMenuRadioItem>
@@ -181,10 +182,11 @@ function ShoppingListing() {
             </DropdownMenu>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
           {productList && productList.length > 0
             ? productList.map((productItem) => (
                 <ShoppingProductTile
+                  key={productItem._id}
                   handleGetProductDetails={handleGetProductDetails}
                   product={productItem}
                   handleAddtoCart={handleAddtoCart}

@@ -96,33 +96,64 @@ function ShoppingCheckout() {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-screen">
       <div className="relative h-[300px] w-full overflow-hidden">
-        <img src={img} className="h-full w-full object-cover object-center" />
+        <img src={img} className="h-full w-full object-cover object-center" alt="Checkout Banner" />
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <h1 className="text-section font-poppins font-semibold ">Checkout</h1>
+        </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5 p-5">
-        <Address
-          selectedId={currentSelectedAddress}
-          setCurrentSelectedAddress={setCurrentSelectedAddress}
-        />
-        <div className="flex flex-col gap-4">
-          {cartItems && cartItems.items && cartItems.items.length > 0
-            ? cartItems.items.map((item) => (
-                <UserCartItemsContent cartItem={item} />
-              ))
-            : null}
-          <div className="mt-8 space-y-4">
-            <div className="flex justify-between">
-              <span className="font-bold">Total</span>
-              <span className="font-bold">${totalCartAmount}</span>
-            </div>
+      
+      <div className="container  mx-auto px-6 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-6">
+            <h2 className="text-subsection font-poppins font-semibold text-foreground mb-4">Shipping Address</h2>
+            <Address
+              selectedId={currentSelectedAddress}
+              setCurrentSelectedAddress={setCurrentSelectedAddress}
+            />
           </div>
-          <div className="mt-4 w-full">
-            <Button onClick={handleInitiatePaypalPayment} className="w-full">
-              {isPaymentStart
-                ? "Processing Paypal Payment..."
-                : "Checkout with Paypal"}
-            </Button>
+          
+          <div className="space-y-6">
+            <h2 className="text-subsection font-poppins font-semibold text-foreground mb-4">Order Summary</h2>
+            <div className="bg-background  border border-secondary rounded-lg p-6">
+              <div className="space-y-4 mb-6">
+                {cartItems && cartItems.items && cartItems.items.length > 0
+                  ? cartItems.items.map((item, index) => (
+                      <UserCartItemsContent key={index} cartItem={item} />
+                    ))
+                  : null}
+              </div>
+
+              <div className="border-t border-secondary p-5 rounded space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-foreground">Subtotal</span>
+                  <span className="font-semibold text-foreground">${totalCartAmount.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-foreground">Shipping</span>
+                  <span className="font-semibold text-foreground">Free</span>
+                </div>
+                <div className="border-t border-secondary pt-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-bold text-foreground">Total</span>
+                    <span className="text-lg font-bold text-foreground">${totalCartAmount.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-6">
+                <Button 
+                  onClick={handleInitiatePaypalPayment} 
+                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-poppins font-medium uppercase tracking-wide py-3"
+                >
+                  {isPaymentStart
+                    ? "Processing Paypal Payment..."
+                    : "Checkout with Paypal"}
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

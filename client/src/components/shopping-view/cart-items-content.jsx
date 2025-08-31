@@ -72,7 +72,7 @@ function UserCartItemsContent({ cartItem }) {
   }
 
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex items-center x space-x-4">
       <img
         src={cartItem?.image}
         alt={cartItem?.title}
@@ -83,7 +83,7 @@ function UserCartItemsContent({ cartItem }) {
         <div className="flex items-center gap-2 mt-1">
           <Button
             variant="outline"
-            className="h-8 w-8 rounded-full"
+            className="h-8 w-8 rounded-full border-secondary hover:bg-secondary hover:text-secondary-foreground"
             size="icon"
             disabled={cartItem?.quantity === 1}
             onClick={() => handleUpdateQuantity(cartItem, "minus")}
@@ -91,10 +91,10 @@ function UserCartItemsContent({ cartItem }) {
             <Minus className="w-4 h-4" />
             <span className="sr-only">Decrease</span>
           </Button>
-          <span className="font-semibold">{cartItem?.quantity}</span>
+          <span className="font-semibold text-foreground font-inter">{cartItem?.quantity}</span>
           <Button
             variant="outline"
-            className="h-8 w-8 rounded-full"
+            className="h-8 w-8 rounded-full border-secondary hover:bg-secondary hover:text-secondary-foreground"
             size="icon"
             onClick={() => handleUpdateQuantity(cartItem, "plus")}
           >
@@ -104,7 +104,7 @@ function UserCartItemsContent({ cartItem }) {
         </div>
       </div>
       <div className="flex flex-col items-end">
-        <p className="font-semibold">
+        <p className="font-semibold font-inter">
           $
           {(
             (cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price) *
@@ -113,7 +113,7 @@ function UserCartItemsContent({ cartItem }) {
         </p>
         <Trash
           onClick={() => handleCartItemDelete(cartItem)}
-          className="cursor-pointer mt-1"
+          className="cursor-pointer mt-1 text-destructive hover:text-destructive/80 transition-colors"
           size={20}
         />
       </div>

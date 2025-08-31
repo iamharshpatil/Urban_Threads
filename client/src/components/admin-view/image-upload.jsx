@@ -67,15 +67,15 @@ function ProductImageUpload({
 
   return (
     <div
-      className={`w-full  mt-4 ${isCustomStyling ? "" : "max-w-md mx-auto"}`}
+      className={`w-full mt-4 ${isCustomStyling ? "" : "max-w-md mx-auto"}`}
     >
-      <Label className="text-lg font-semibold mb-2 block">Upload Image</Label>
+      <Label className="text-lg font-inter font-semibold mb-4 block">Upload Image</Label>
       <div
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         className={`${
           isEditMode ? "opacity-60" : ""
-        } border-2 border-dashed rounded-lg p-4`}
+        } border-2 border-dashed border-secondary rounded-lg p-8 bg-background transition-all duration-200 hover:border-primary/50`}
       >
         <Input
           id="image-upload"
@@ -89,24 +89,31 @@ function ProductImageUpload({
           <Label
             htmlFor="image-upload"
             className={`${
-              isEditMode ? "cursor-not-allowed" : ""
-            } flex flex-col items-center justify-center h-32 cursor-pointer`}
+              isEditMode ? "cursor-not-allowed" : "cursor-pointer"
+            } flex flex-col items-center justify-center h-32 text-center`}
           >
-            <UploadCloudIcon className="w-10 h-10 text-muted-foreground mb-2" />
-            <span>Drag & drop or click to upload image</span>
+            <UploadCloudIcon className="w-12 h-12 text-muted-foreground mb-4" />
+            <span className="text-foreground font-inter">Drag & drop or click to upload image</span>
+            <span className="text-sm text-muted-foreground mt-2">Supports: JPG, PNG, GIF</span>
           </Label>
         ) : imageLoadingState ? (
-          <Skeleton className="h-10 bg-gray-100" />
+          <div className="flex flex-col items-center justify-center h-32">
+            <Skeleton className="h-8 w-32 bg-secondary mb-2" />
+            <Skeleton className="h-4 w-24 bg-secondary" />
+          </div>
         ) : (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <FileIcon className="w-8 text-primary mr-2 h-8" />
+          <div className="flex items-center justify-between p-4 bg-secondary/10 rounded-lg">
+            <div className="flex items-center gap-3">
+              <FileIcon className="w-8 h-8 text-primary" />
+              <div className="flex flex-col">
+                <p className="text-sm font-medium text-foreground font-inter">{imageFile.name}</p>
+                <p className="text-xs text-muted-foreground">{(imageFile.size / 1024 / 1024).toFixed(2)} MB</p>
+              </div>
             </div>
-            <p className="text-sm font-medium">{imageFile.name}</p>
             <Button
               variant="ghost"
               size="icon"
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground hover:bg-secondary/20"
               onClick={handleRemoveImage}
             >
               <XIcon className="w-4 h-4" />

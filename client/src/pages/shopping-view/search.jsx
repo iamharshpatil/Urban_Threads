@@ -85,30 +85,48 @@ function SearchProducts() {
   console.log(searchResults, "searchResults");
 
   return (
-    <div className="container mx-auto md:px-6 px-4 py-8">
-      <div className="flex justify-center mb-8">
-        <div className="w-full flex items-center">
+    <div className="container mx-auto px-6 py-8">
+      <div className="flex justify-center mb-12">
+        <div className="w-full max-w-2xl">
           <Input
             value={keyword}
             name="keyword"
             onChange={(event) => setKeyword(event.target.value)}
-            className="py-6"
+            className="py-6 text-lg font-inter"
             placeholder="Search Products..."
           />
         </div>
       </div>
+      
       {!searchResults.length ? (
-        <h1 className="text-5xl font-extrabold">No result found!</h1>
-      ) : null}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {searchResults.map((item) => (
-          <ShoppingProductTile
-            handleAddtoCart={handleAddtoCart}
-            product={item}
-            handleGetProductDetails={handleGetProductDetails}
-          />
-        ))}
-      </div>
+        <div className="text-center py-16">
+          <h1 className="text-elegant font-poppins font-bold text-foreground mb-4">No results found!</h1>
+          <p className="text-body font-inter text-muted-foreground">Try adjusting your search terms or browse our categories</p>
+        </div>
+      ) : (
+        <>
+          <div className="mb-8">
+            <h2 className="text-section font-poppins font-semibold text-foreground mb-2">
+              Search Results
+            </h2>
+            <p className="text-body font-inter text-muted-foreground">
+              Found {searchResults.length} product{searchResults.length !== 1 ? 's' : ''} for "{keyword}"
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {searchResults.map((item) => (
+              <ShoppingProductTile
+                key={item._id}
+                handleAddtoCart={handleAddtoCart}
+                product={item}
+                handleGetProductDetails={handleGetProductDetails}
+              />
+            ))}
+          </div>
+        </>
+      )}
+      
       <ProductDetailsDialog
         open={openDetailsDialog}
         setOpen={setOpenDetailsDialog}

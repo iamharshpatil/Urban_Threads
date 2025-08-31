@@ -17,6 +17,20 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif'],
+        'inter': ['Inter', 'sans-serif'],
+      },
+      fontSize: {
+        'elegant': ['40px', { lineHeight: '1.1', letterSpacing: '-0.01em' }],
+        'section': ['24px', { lineHeight: '1.3', letterSpacing: '-0.01em' }],
+        'subsection': ['20px', { lineHeight: '1.3', letterSpacing: '-0.01em' }],
+        'card-title': ['18px', { lineHeight: '1.4', letterSpacing: '-0.01em' }],
+        'body': ['16px', { lineHeight: '1.6' }],
+        'button': ['16px', { lineHeight: '1.5', letterSpacing: '0.5px' }],
+        'nav': ['14px', { lineHeight: '1.4' }],
+        'label': ['13px', { lineHeight: '1.3' }],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
