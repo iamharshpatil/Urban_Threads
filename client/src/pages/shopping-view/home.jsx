@@ -28,7 +28,7 @@ import man from "../../assets/man.png";
 import woman from "../../assets/woman.png";
 import kids from "../../assets/kids.png";
 import accessories from "../../assets/accessories.png";
-import Footwear from "../../assets/footwear.png";
+import Footwear from "../../assets/Footwear.png";
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: man },
   { id: "women", label: "Women", icon: woman },
