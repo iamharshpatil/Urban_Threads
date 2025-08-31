@@ -106,39 +106,38 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
-        <div className="relative overflow-hidden rounded-lg">
+      <DialogContent className="grid grid-cols-2 gap-2 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
+        <div className="relative flex justify-center items-center h-[80%] overflow-hidden rounded-lg">
           <img
             src={productDetails?.image}
             alt={productDetails?.title}
-            width={600}
-            height={600}
-            className="aspect-square w-full object-cover"
+
+            className=" h-[60vh]  object-cover"
           />
         </div>
-        <div className="">
+        <div className="p-5 rounded ">
           <div>
-            <h1 className="text-3xl font-extrabold">{productDetails?.title}</h1>
-            <p className="text-muted-foreground text-2xl mb-5 mt-4">
+            <h1 className="text-elegant font-poppins  font-bold">{productDetails?.title}</h1>
+            <p className="text-body font-inter text-muted-foreground mb-5 mt-4">
               {productDetails?.description}
             </p>
           </div>
           <div className="flex items-center justify-between">
             <p
-              className={`text-3xl font-bold text-primary ${
+              className={`text-xl font-inter font-bold text-primary ${
                 productDetails?.salePrice > 0 ? "line-through" : ""
               }`}
             >
-              ${productDetails?.price}
+              &#8377;{productDetails?.price}
             </p>
             {productDetails?.salePrice > 0 ? (
-              <p className="text-2xl font-bold text-muted-foreground">
-                ${productDetails?.salePrice}
+              <p className="text-2xl font-inter font-bold text-muted-foreground">
+                &#8377;{productDetails?.salePrice}
               </p>
             ) : null}
           </div>
           <div className="flex items-center gap-2 mt-2">
-            <div className="flex items-center gap-0.5">
+            <div className="flex items-center gap-2 ">
               <StarRatingComponent rating={averageReview} />
             </div>
             <span className="text-muted-foreground">
@@ -147,12 +146,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
           </div>
           <div className="mt-5 mb-5">
             {productDetails?.totalStock === 0 ? (
-              <Button className="w-full opacity-60 cursor-not-allowed">
+              <Button className="w-full opacity-60 cursor-not-allowed bg-muted text-muted-foreground font-poppins font-medium uppercase tracking-wide">
                 Out of Stock
               </Button>
             ) : (
               <Button
-                className="w-full"
+                className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-poppins font-medium uppercase tracking-wide"
                 onClick={() =>
                   handleAddToCart(
                     productDetails?._id,
@@ -164,9 +163,9 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
               </Button>
             )}
           </div>
-          <Separator />
+          <Separator className="bg-secondary" />
           <div className="max-h-[300px] overflow-auto">
-            <h2 className="text-xl font-bold mb-4">Reviews</h2>
+                          <h2 className="text-subsection font-poppins font-semibold mb-4 text-foreground">Reviews</h2>
             <div className="grid gap-6">
               {reviews && reviews.length > 0 ? (
                 reviews.map((reviewItem) => (
@@ -190,11 +189,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                   </div>
                 ))
               ) : (
-                <h1>No Reviews</h1>
+                <h1 className="text-sm">No Reviews 🥲</h1>
               )}
             </div>
             <div className="mt-10 flex-col flex gap-2">
-              <Label>Write a review</Label>
+              <Label className="font-inter">Write a review</Label>
               <div className="flex gap-1">
                 <StarRatingComponent
                   rating={rating}
@@ -210,6 +209,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
               <Button
                 onClick={handleAddReview}
                 disabled={reviewMsg.trim() === ""}
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-poppins font-medium uppercase tracking-wide"
               >
                 Submit
               </Button>

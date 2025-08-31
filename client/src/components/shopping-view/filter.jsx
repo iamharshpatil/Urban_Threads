@@ -6,33 +6,37 @@ import { Separator } from "../ui/separator";
 
 function ProductFilter({ filters, handleFilter }) {
   return (
-    <div className="bg-background rounded-lg shadow-sm">
-      <div className="p-4 border-b">
-        <h2 className="text-lg font-extrabold">Filters</h2>
+    <div className="bg-background rounded-lg shadow-sm border border-secondary sticky top-20">
+      <div className="p-6 border-b border-secondary">
+        <h2 className="text-subsection font-poppins font-semibold text-foreground">Filters</h2>
       </div>
-      <div className="p-4 space-y-4">
+      <div className="p-6 space-y-8">
         {Object.keys(filterOptions).map((keyItem) => (
-          <Fragment>
+          <Fragment key={keyItem}>
             <div>
-              <h3 className="text-base font-bold">{keyItem}</h3>
-              <div className="grid gap-2 mt-2">
+              <h3 className="text-card-title font-poppins font-semibold text-foreground mb-4">{keyItem.toUpperCase()}</h3>
+              <div className="grid gap-4">
                 {filterOptions[keyItem].map((option) => (
-                  <Label className="flex font-medium items-center gap-2 ">
+                  <Label 
+                    key={option.id} 
+                    className="flex font-inter font-normal items-center gap-3 text-foreground hover:text-primary transition-colors cursor-pointer group"
+                  >
                     <Checkbox
                       checked={
                         filters &&
                         Object.keys(filters).length > 0 &&
                         filters[keyItem] &&
-                        filters[keyItem].indexOf(option.id) > -1
+                        filters[keyItem].indexOf(option.id) > -1  && {bg: "bg-primary"}
                       }
                       onCheckedChange={() => handleFilter(keyItem, option.id)}
+                      className="group-hover:border-primary"
                     />
-                    {option.label}
+                    <span className="text-sm">{option.label}</span>
                   </Label>
                 ))}
               </div>
             </div>
-            <Separator />
+            <Separator className="bg-secondary" />
           </Fragment>
         ))}
       </div>

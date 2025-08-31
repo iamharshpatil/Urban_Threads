@@ -42,7 +42,7 @@ function ShoppingOrders() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Order History</CardTitle>
+        <CardTitle className="text-subsection font-poppins font-semibold">Order History</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
@@ -67,10 +67,10 @@ function ShoppingOrders() {
                       <Badge
                         className={`py-1 px-3 ${
                           orderItem?.orderStatus === "confirmed"
-                            ? "bg-green-500"
+                            ? "bg-accent text-accent-foreground"
                             : orderItem?.orderStatus === "rejected"
-                            ? "bg-red-600"
-                            : "bg-black"
+                            ? "bg-destructive text-destructive-foreground"
+                            : "bg-primary text-primary-foreground"
                         }`}
                       >
                         {orderItem?.orderStatus}
@@ -89,6 +89,7 @@ function ShoppingOrders() {
                           onClick={() =>
                             handleFetchOrderDetails(orderItem?._id)
                           }
+                          className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-poppins font-medium uppercase tracking-wide"
                         >
                           View Details
                         </Button>

@@ -140,6 +140,7 @@ export const shoppingViewHeaderMenuItems = [
   {
     id: "search",
     label: "Search",
+     icon: "ri-search-line",
     path: "/shop/search",
   },
 ];

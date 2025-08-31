@@ -104,24 +104,37 @@ function AdminProducts() {
 
   return (
     <Fragment>
-      <div className="mb-5 w-full flex justify-end">
-        <Button onClick={() => setOpenCreateProductsDialog(true)}>
-          Add New Product
-        </Button>
+      <div className="bg-background border border-secondary rounded-lg p-6 mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-subsection font-poppins font-semibold text-foreground">Product Management</h2>
+          <Button 
+            onClick={() => setOpenCreateProductsDialog(true)}
+            className="bg-accent hover:bg-accent/90 text-accent-foreground font-poppins font-medium uppercase tracking-wide px-6 py-2"
+          >
+            Add New Product
+          </Button>
+        </div>
+        
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {productList && productList.length > 0
+            ? productList.map((productItem) => (
+                <AdminProductTile
+                  key={productItem._id}
+                  setFormData={setFormData}
+                  setOpenCreateProductsDialog={setOpenCreateProductsDialog}
+                  setCurrentEditedId={setCurrentEditedId}
+                  product={productItem}
+                  handleDelete={handleDelete}
+                />
+              ))
+            : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-muted-foreground font-inter">No products found. Add your first product to get started.</p>
+              </div>
+            )}
+        </div>
       </div>
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {productList && productList.length > 0
-          ? productList.map((productItem) => (
-              <AdminProductTile
-                setFormData={setFormData}
-                setOpenCreateProductsDialog={setOpenCreateProductsDialog}
-                setCurrentEditedId={setCurrentEditedId}
-                product={productItem}
-                handleDelete={handleDelete}
-              />
-            ))
-          : null}
-      </div>
+      
       <Sheet
         open={openCreateProductsDialog}
         onOpenChange={() => {
@@ -130,30 +143,34 @@ function AdminProducts() {
           setFormData(initialFormData);
         }}
       >
-        <SheetContent side="right" className="overflow-auto">
-          <SheetHeader>
-            <SheetTitle>
+        <SheetContent side="right" className="overflow-auto w-full max-w-2xl">
+          <SheetHeader className="mb-6">
+            <h2 className="text-subsection font-poppins font-semibold text-foreground">
               {currentEditedId !== null ? "Edit Product" : "Add New Product"}
-            </SheetTitle>
+            </h2>
           </SheetHeader>
-          <ProductImageUpload
-            imageFile={imageFile}
-            setImageFile={setImageFile}
-            uploadedImageUrl={uploadedImageUrl}
-            setUploadedImageUrl={setUploadedImageUrl}
-            setImageLoadingState={setImageLoadingState}
-            imageLoadingState={imageLoadingState}
-            isEditMode={currentEditedId !== null}
-          />
-          <div className="py-6">
-            <CommonForm
-              onSubmit={onSubmit}
-              formData={formData}
-              setFormData={setFormData}
-              buttonText={currentEditedId !== null ? "Edit" : "Add"}
-              formControls={addProductFormElements}
-              isBtnDisabled={!isFormValid()}
+          
+          <div className="space-y-6">
+            <ProductImageUpload
+              imageFile={imageFile}
+              setImageFile={setImageFile}
+              uploadedImageUrl={uploadedImageUrl}
+              setUploadedImageUrl={setUploadedImageUrl}
+              setImageLoadingState={setImageLoadingState}
+              imageLoadingState={imageLoadingState}
+              isEditMode={currentEditedId !== null}
             />
+            
+            <div className="py-4">
+              <CommonForm
+                onSubmit={onSubmit}
+                formData={formData}
+                setFormData={setFormData}
+                buttonText={currentEditedId !== null ? "Update Product" : "Create Product"}
+                formControls={addProductFormElements}
+                isBtnDisabled={!isFormValid()}
+              />
+            </div>
           </div>
         </SheetContent>
       </Sheet>
