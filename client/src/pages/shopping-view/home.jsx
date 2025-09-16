@@ -29,6 +29,7 @@ import woman from "../../assets/woman.png";
 import kids from "../../assets/kids.png";
 import accessories from "../../assets/accessories.png";
 import Footwear from "../../assets/Footwear.png";
+import { Skeleton } from "@/components/ui/skeleton";
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: man },
   { id: "women", label: "Women", icon: woman },
@@ -47,10 +48,10 @@ const brandsWithIcon = [
 ];
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { productList, productDetails } = useSelector(
+  const { productList, productDetails, isLoading: isProductsLoading } = useSelector(
     (state) => state.shopProducts
   );
-  const { featureImageList } = useSelector((state) => state.commonFeature);
+  const { featureImageList, isLoading: isFeatureLoading } = useSelector((state) => state.commonFeature);
 
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
@@ -97,7 +98,7 @@ function ShoppingHome() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % (featureImageList.length || 1));
     }, 5000);
 
     return () => clearInterval(timer);
@@ -112,8 +113,6 @@ function ShoppingHome() {
     );
   }, [dispatch]);
 
-  console.log(productList, "productList");
-
   useEffect(() => {
     dispatch(getFeatureImages());
   }, [dispatch]);
@@ -121,27 +120,32 @@ function ShoppingHome() {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] max-sm:h-[200px]  overflow-hidden">
-        {featureImageList && featureImageList.length > 0
-          ? featureImageList.map((slide, index) => (
-              <img
-                onClick={() => navigate('/shop/listing')}
-                src={slide?.image}
-                key={index}
-                className={`${
-                  index === currentSlide ? "opacity-100" : "opacity-0"
-                } absolute top-0 left-0 w-[100%]  object-cover  transition-opacity duration-1000`}
-                alt={`Slide ${index + 1}`}
-              />
-            ))
-          : null}
+        {isFeatureLoading ? (
+          <Skeleton className="absolute top-0 left-0 w-full h-full" />
+        ) : featureImageList && featureImageList.length > 0 ? (
+          featureImageList.map((slide, index) => (
+            <img
+              onClick={() => navigate('/shop/listing')}
+              src={slide?.image}
+              key={index}
+              className={`${
+                index === currentSlide ? "opacity-100" : "opacity-0"
+              } absolute top-0 left-0 w-[100%]  object-cover  transition-opacity duration-1000`}
+              alt={`Slide ${index + 1}`}
+            />
+          ))
+        ) : (
+          <Skeleton className="absolute top-0 left-0 w-full h-full" />
+        )}
         <Button
           variant="outline"
           size="icon"
+          disabled={isFeatureLoading || !featureImageList?.length}
           onClick={() =>
             setCurrentSlide(
               (prevSlide) =>
-                (prevSlide - 1 + featureImageList.length) %
-                featureImageList.length
+                (prevSlide - 1 + (featureImageList.length || 1)) %
+                (featureImageList.length || 1)
             )
           }
           className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-background/90 hover:bg-background border-secondary text-foreground z-10"
@@ -151,9 +155,10 @@ function ShoppingHome() {
         <Button
           variant="outline"
           size="icon"
+          disabled={isFeatureLoading || !featureImageList?.length}
           onClick={() =>
             setCurrentSlide(
-              (prevSlide) => (prevSlide + 1) % featureImageList.length
+              (prevSlide) => (prevSlide + 1) % (featureImageList.length || 1)
             )
           }
           className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-background/90 hover:bg-background border-secondary text-foreground z-10"
@@ -222,16 +227,34 @@ function ShoppingHome() {
             Feature Products
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {productList && productList.length > 0
-              ? productList.map((productItem) => (
-                  <ShoppingProductTile
-                    key={productItem._id}
-                    handleGetProductDetails={handleGetProductDetails}
-                    product={productItem}
-                    handleAddtoCart={handleAddtoCart}
-                  />
-                ))
-              : null}
+            {isProductsLoading ? (
+              Array.from({ length: 8 }).map((_, idx) => (
+                <Card key={idx} className="border-secondary">
+                  <CardContent className="p-4">
+                    <Skeleton className="w-full h-40 mb-4" />
+                    <Skeleton className="h-5 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-1/2 mb-4" />
+                    <div className="flex gap-2">
+                      <Skeleton className="h-9 w-24" />
+                      <Skeleton className="h-9 w-24" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            ) : productList && productList.length > 0 ? (
+              productList.map((productItem) => (
+                <ShoppingProductTile
+                  key={productItem._id}
+                  handleGetProductDetails={handleGetProductDetails}
+                  product={productItem}
+                  handleAddtoCart={handleAddtoCart}
+                />
+              ))
+            ) : (
+              <div className="col-span-full text-center text-muted-foreground">
+                No products found.
+              </div>
+            )}
           </div>
         </div>
       </section>
